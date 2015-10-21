@@ -20,9 +20,10 @@
         <script>
             var numberOfFaces = 5;
             
-            function generateFaces(){
+              function generateFaces(){
+                //Handling the Left Hand Side
                 var theLeftSide = document.getElementById("leftSide");
-                for(;numberOfFaces > 0; numberOfFaces--){
+                for(var i = numberOfFaces ; i > 0; i--){
                     img = document.createElement("img");
                     
                     img.src = "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
@@ -35,10 +36,39 @@
                     
                     theLeftSide.appendChild(img);
                 }
+                
+                //Handling the Right Hand Side
                 var theRightSide = document.getElementById("rightSide");
                 var leftSideImages = theLeftSide.cloneNode(true);
                 leftSideImages.removeChild(leftSideImages.lastChild);
                 theRightSide.appendChild(leftSideImages);
+                
+                //Adding Game actions
+                var theBody =
+                    document.getElementsByTagName("body")[0];
+                theLeftSide.lastChild.onclick= function nextLevel(event){
+                    event.stopPropagation();
+                    numberOfFaces += 5;
+                    while(theLeftSide.firstChild){
+                        theLeftSide.removeChild(theLeftSide.firstChild);
+                    }
+                    while(theRightSide.firstChild){
+                        theRightSide.removeChild(theRightSide.firstChild);
+                    }
+                    generateFaces();
+                }
+                theBody.onclick = function gameOver() {
+                    alert("Game Over!");
+                    theBody.onclick = null;
+                    theLeftSide.lastChild.onclick = null;
+                    while(theLeftSide.firstChild){
+                        theLeftSide.removeChild(theLeftSide.firstChild);
+                    }
+                    while(theRightSide.firstChild){
+                        theRightSide.removeChild(theRightSide.firstChild);
+                    }
+                   // generateFaces();
+                } 
             }
         </script>
     </head>
